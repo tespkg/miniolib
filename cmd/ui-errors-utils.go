@@ -82,12 +82,12 @@ func errorToUIErr(err error) uiErr {
 	switch e := err.(type) {
 	case *net.OpError:
 		if e.Op == "listen" {
-			return uiErrPortAlreadyInUse(e).Msg("Port " + e.Addr.String() + " is already in use")
+			return uiErrPortAlreadyInUse(e).Msg("%s", "Port "+e.Addr.String()+" is already in use")
 
 		}
 	case *os.PathError:
 		if os.IsPermission(e) {
-			return uiErrNoPermissionsToAccessDirFiles(e).Msg("Insufficient permissions to access path, `" + e.Path + "`")
+			return uiErrNoPermissionsToAccessDirFiles(e).Msg("%s", "Insufficient permissions to access path, `"+e.Path+"`")
 		}
 	}
 

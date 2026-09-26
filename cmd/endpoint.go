@@ -459,7 +459,7 @@ func CreateEndpoints(serverAddr string, args ...[]string) (string, EndpointList,
 
 		// Check for cross device mounts if any.
 		if err = checkCrossDeviceMounts(endpoints); err != nil {
-			return serverAddr, endpoints, setupType, uiErrInvalidFSEndpoint(nil).Msg(err.Error())
+			return serverAddr, endpoints, setupType, uiErrInvalidFSEndpoint(nil).Msg("%s", err.Error())
 		}
 		return serverAddr, endpoints, setupType, nil
 	}
@@ -470,12 +470,12 @@ func CreateEndpoints(serverAddr string, args ...[]string) (string, EndpointList,
 		var eps EndpointList
 		eps, err = NewEndpointList(iargs...)
 		if err != nil {
-			return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg(err.Error())
+			return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg("%s", err.Error())
 		}
 
 		// Check for cross device mounts if any.
 		if err = checkCrossDeviceMounts(eps); err != nil {
-			return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg(err.Error())
+			return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg("%s", err.Error())
 		}
 
 		for _, ep := range eps {
@@ -492,7 +492,7 @@ func CreateEndpoints(serverAddr string, args ...[]string) (string, EndpointList,
 	}
 
 	if err := endpoints.UpdateIsLocal(); err != nil {
-		return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg(err.Error())
+		return serverAddr, endpoints, setupType, uiErrInvalidErasureEndpoints(nil).Msg("%s", err.Error())
 	}
 
 	// Here all endpoints are URL style.
@@ -536,7 +536,7 @@ func CreateEndpoints(serverAddr string, args ...[]string) (string, EndpointList,
 			if IPSet, ok := pathIPMap[endpoint.Path]; ok {
 				if !IPSet.Intersection(hostIPSet).IsEmpty() {
 					return serverAddr, endpoints, setupType,
-						uiErrInvalidErasureEndpoints(nil).Msg(fmt.Sprintf("path '%s' can not be served by different port on same address", endpoint.Path))
+						uiErrInvalidErasureEndpoints(nil).Msg("%s", fmt.Sprintf("path '%s' can not be served by different port on same address", endpoint.Path))
 				}
 				pathIPMap[endpoint.Path] = IPSet.Union(hostIPSet)
 			} else {
@@ -554,7 +554,7 @@ func CreateEndpoints(serverAddr string, args ...[]string) (string, EndpointList,
 			}
 			if localPathSet.Contains(endpoint.Path) {
 				return serverAddr, endpoints, setupType,
-					uiErrInvalidErasureEndpoints(nil).Msg(fmt.Sprintf("path '%s' cannot be served by different address on same server", endpoint.Path))
+					uiErrInvalidErasureEndpoints(nil).Msg("%s", fmt.Sprintf("path '%s' cannot be served by different address on same server", endpoint.Path))
 			}
 			localPathSet.Add(endpoint.Path)
 		}

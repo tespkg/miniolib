@@ -125,10 +125,10 @@ func getSetIndexes(args []string, totalSizes []uint64) (setIndexes [][]uint64, e
 	if customSetDriveCount > 0 {
 		msg := fmt.Sprintf("Invalid set drive count, leads to non-uniform distribution for the given number of disks. Possible values for custom set count are %d", possibleSetCounts(setSize))
 		if customSetDriveCount > setSize {
-			return nil, uiErrInvalidErasureSetSize(nil).Msg(msg)
+			return nil, uiErrInvalidErasureSetSize(nil).Msg("%s", msg)
 		}
 		if setSize%customSetDriveCount != 0 {
-			return nil, uiErrInvalidErasureSetSize(nil).Msg(msg)
+			return nil, uiErrInvalidErasureSetSize(nil).Msg("%s", msg)
 		}
 		setSize = customSetDriveCount
 	}
@@ -198,14 +198,14 @@ func parseEndpointSet(args ...string) (ep endpointSet, err error) {
 	for i, arg := range args {
 		patterns, perr := ellipses.FindEllipsesPatterns(arg)
 		if perr != nil {
-			return endpointSet{}, uiErrInvalidErasureEndpoints(nil).Msg(perr.Error())
+			return endpointSet{}, uiErrInvalidErasureEndpoints(nil).Msg("%s", perr.Error())
 		}
 		argPatterns[i] = patterns
 	}
 
 	ep.setIndexes, err = getSetIndexes(args, getTotalSizes(argPatterns))
 	if err != nil {
-		return endpointSet{}, uiErrInvalidErasureEndpoints(nil).Msg(err.Error())
+		return endpointSet{}, uiErrInvalidErasureEndpoints(nil).Msg("%s", err.Error())
 	}
 
 	ep.argPatterns = argPatterns
@@ -254,7 +254,7 @@ func getAllSets(args ...string) ([][]string, error) {
 	for _, sargs := range setArgs {
 		for _, arg := range sargs {
 			if uniqueArgs.Contains(arg) {
-				return nil, uiErrInvalidErasureEndpoints(nil).Msg(fmt.Sprintf("Input args (%s) has duplicate ellipses", args))
+				return nil, uiErrInvalidErasureEndpoints(nil).Msg("%s", fmt.Sprintf("Input args (%s) has duplicate ellipses", args))
 			}
 			uniqueArgs.Add(arg)
 		}

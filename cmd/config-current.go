@@ -594,7 +594,7 @@ func getValidConfig(objAPI ObjectLayer) (*serverConfig, error) {
 func loadConfig(objAPI ObjectLayer) error {
 	srvCfg, err := getValidConfig(objAPI)
 	if err != nil {
-		return uiErrInvalidConfig(nil).Msg(err.Error())
+		return uiErrInvalidConfig(nil).Msg("%s", err.Error())
 	}
 
 	// Override any values from ENVs.

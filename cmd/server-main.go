@@ -154,7 +154,7 @@ func serverHandleCmdArgs(ctx *cli.Context) {
 	var err error
 
 	if len(ctx.Args()) > serverCommandLineArgsMax {
-		uErr := uiErrInvalidErasureEndpoints(nil).Msg(fmt.Sprintf("Invalid total number of endpoints (%d) passed, supported upto 32 unique arguments",
+		uErr := uiErrInvalidErasureEndpoints(nil).Msg("%s", fmt.Sprintf("Invalid total number of endpoints (%d) passed, supported upto 32 unique arguments",
 			len(ctx.Args())))
 		logger.FatalIf(uErr, "Unable to validate passed endpoints")
 	}

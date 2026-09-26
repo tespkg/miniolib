@@ -18,7 +18,7 @@ package cmd
 
 import (
 	"github.com/minio/cli"
-	"github.com/minio/mc/pkg/console"
+	"github.com/minio/pkg/v3/console"
 )
 
 var versionCmd = cli.Command{
